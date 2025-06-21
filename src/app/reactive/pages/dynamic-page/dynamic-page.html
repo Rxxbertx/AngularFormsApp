@@ -11,7 +11,7 @@
              placeholder="Nombre de la persona"
              formControlName="name"
       >
-      @if (formUtils.isValidField(myForm, 'name')) {
+      @if (!formUtils.isValidField(myForm, 'name')) {
         <span class="form-text text-danger">
                        {{ formUtils.getFieldError(myForm, 'name') }}
                     </span>
@@ -62,7 +62,7 @@
             </button>
           </div>
 
-          @if (formUtils.isValidFieldOnArray(favoriteGames, i)) {
+          @if (!formUtils.isValidFieldOnArray(favoriteGames, i)) {
             <span class="form-text text-danger">
                        {{ formUtils.getFieldErrorOnArray(favoriteGames, i) }}
                     </span>
@@ -72,7 +72,7 @@
         </div>
       }
 
-      @if (formUtils.isValidField(myForm, 'favoriteGames')) {
+      @if (!formUtils.isValidField(myForm, 'favoriteGames')) {
         <span class="form-text text-danger">
                        {{ formUtils.getFieldError(myForm, 'favoriteGames') }}
                     </span>

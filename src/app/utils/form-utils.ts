@@ -2,9 +2,12 @@ import {FormArray, FormGroup} from '@angular/forms';
 
 export default class FormUtils {
 
+  static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
+  static emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+  static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
 
   static isValidField(myForm: FormGroup, fieldName: string): boolean | null {
-    return !!myForm.controls[fieldName].errors && myForm.controls[fieldName].touched
+    return !(myForm.controls[fieldName].errors && myForm.controls[fieldName].touched)
   }
 
   static isValidFieldOnArray(formArray: FormArray, index: number) {
@@ -27,6 +30,12 @@ export default class FormUtils {
           return `Minimum field: ${errors[key].requiredLength}`;
         case 'min':
           return `Minimum value: ${errors[key].min}`;
+        case 'email':
+          return `The email is not correct: ${errors[key]}`;
+        case 'pattern':
+          return `The value doesnt match pattern: ${errors[key]}`;
+          default:
+            return `Invalid field ${key}: ${errors[key]}`;
       }
 
     }
