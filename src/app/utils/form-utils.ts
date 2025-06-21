@@ -4,7 +4,7 @@ export default class FormUtils {
 
 
   static isValidField(myForm: FormGroup, fieldName: string): boolean | null {
-    return !!myForm.controls[fieldName].errors && !myForm.controls[fieldName].touched
+    return !!myForm.controls[fieldName].errors && myForm.controls[fieldName].touched
   }
 
   static isValidFieldOnArray(formArray: FormArray, index: number) {
@@ -23,7 +23,7 @@ export default class FormUtils {
       switch (key) {
         case 'required':
           return 'Required field';
-        case 'minLength':
+        case 'minlength':
           return `Minimum field: ${errors[key].requiredLength}`;
         case 'min':
           return `Minimum value: ${errors[key].min}`;

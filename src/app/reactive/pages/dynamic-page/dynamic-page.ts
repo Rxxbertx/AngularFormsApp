@@ -22,7 +22,7 @@ export class DynamicPage {
   myForm: FormGroup = this.fb.group(
     {
       name: ['', [Validators.required, Validators.minLength(3)]],
-      favoriteGames: this.fb.array([['Meta Gear', Validators.required], ['Nfs Gear', Validators.required]], Validators.minLength(3))
+      favoriteGames: this.fb.array([['Meta Gear', Validators.required], ['Nfs Gear', Validators.required]], [Validators.required, Validators.minLength(3)])
     }
   )
 
@@ -32,15 +32,17 @@ export class DynamicPage {
 
 
   onSave() {
+
+    this.myForm.markAllAsTouched()
+
     if (this.myForm.invalid) {
-      this.myForm.markAllAsTouched()
       return;
     }
     this.myForm.reset();
 
   }
 
-    formUtils = formUtils;
+  formUtils = formUtils;
 
   addToFavorites() {
 

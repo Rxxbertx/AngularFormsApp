@@ -29,11 +29,14 @@
                placeholder="Agregar favorito"
                [formControl]="newFavorite"
                (keydown.enter)="addToFavorites()"
+               (keydown.enter)="$event.preventDefault()"
         >
 
 
         <button class="btn btn-outline-primary"
-                type="button">
+                type="button"
+                (click)="addToFavorites()"
+        >
           Agregar favorito
         </button>
       </div>
@@ -83,7 +86,6 @@
     <div class="col-sm-12">
       <button type="submit"
               class="btn btn-primary float-end"
-              [disabled]="myForm.invalid"
       >
         Guardar
       </button>
@@ -95,13 +97,13 @@
 
 
 <span>Valid</span>
-<pre>{{ myForm.value | json }}</pre>
+<pre>{{ myForm.valid | json }}</pre>
 <br>
 
 <span>Value</span>
-<pre>{{ 'object' | json }}</pre>
+<pre>{{ myForm.value | json }}</pre>
 <br>
 
 <span>Agregar Juego</span>
-<pre>{{ 'object' | json }}</pre>
-<pre>{{ 'object' | json }}</pre>
+<pre>{{ myForm.controls['favoriteGames'].value | json }}</pre>
+<pre>{{ myForm.controls['favoriteGames'].errors  | json }}</pre>
