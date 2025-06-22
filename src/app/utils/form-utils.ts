@@ -1,4 +1,14 @@
-import {FormArray, FormGroup} from '@angular/forms';
+import {AbstractControl, FormArray, FormGroup, ValidationErrors} from '@angular/forms';
+
+async function sleep() {
+  return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, 1000)
+
+    }
+  )
+}
 
 export default class FormUtils {
 
@@ -12,6 +22,24 @@ export default class FormUtils {
 
   static isValidFieldOnArray(formArray: FormArray, index: number) {
     return (formArray.controls[index].touched && formArray.controls[index].errors)
+  }
+
+  static isFieldOneLikeFieldTwo(field: string, field2: string) {
+
+    return (formGroup: AbstractControl) => {
+
+      const field1Value = formGroup.get(field)?.value;
+      const field2Value = formGroup.get(field2)?.value;
+
+      if (field1Value === field2Value) {
+        return null;
+      }
+      return {
+        fieldNotEquals: true
+      }
+
+    }
+
   }
 
   static getFieldError(myForm: FormGroup, fieldName: string): string | null {
@@ -31,16 +59,51 @@ export default class FormUtils {
         case 'min':
           return `Minimum value: ${errors[key].min}`;
         case 'email':
-          return `The email is not correct: ${errors[key]}`;
+          return `The email is not correct`;
+        case 'emailTaken':
+          return `The email is already taken, try another`;
+          case 'usernameTaken':
+          return `The username is already taken, try another`;
         case 'pattern':
-          return `The value doesnt match pattern: ${errors[key]}`;
-          default:
-            return `Invalid field ${key}: ${errors[key]}`;
+          return `The value doesnt match pattern`;
+        default:
+          return `Invalid field ${key}: ${errors[key]}`;
       }
 
     }
     return null;
 
+
+  }
+
+  static  checkingUsername(control: AbstractControl): ValidationErrors | null {
+
+
+    const value = control.value;
+
+    if (value === 'strider') {
+      return {
+        usernameTaken: true
+      }
+    }
+
+    return null;
+
+  }
+
+  static async checkingEmail(control: AbstractControl): Promise<ValidationErrors | null> {
+
+    await sleep();
+
+    const value = control.value;
+
+    if (value === 'hola@mundo.com') {
+      return {
+        emailTaken: true
+      }
+    }
+
+    return null;
 
   }
 

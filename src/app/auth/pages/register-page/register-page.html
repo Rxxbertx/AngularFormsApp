@@ -91,11 +91,21 @@
           }
 
 
+
+
+
         </div>
       </div>
 
 
       <div class="row">
+
+            <span class="form-text text-danger">
+                @if( myForm.errors && myForm.errors['fieldNotEquals']){
+                  The passwords are not equal
+                }
+          </span>
+
         <div class="col">
           <button class="btn btn-primary float-end"
                   type="submit">
@@ -108,7 +118,6 @@
     </form>
   </div>
 </div>
-
 
 <h2>Form Valid: {{ myForm.valid }} </h2>
 <h2>Form Status: {{ myForm.status }}</h2>

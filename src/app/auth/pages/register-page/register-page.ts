@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {JsonPipe} from '@angular/common';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import FormUtils from '../../../utils/form-utils';
 import formUtils from '../../../utils/form-utils';
 
@@ -23,14 +23,19 @@ export class RegisterPage {
 
   myForm: FormGroup = this.fb.group({
 
-    name: [null, [Validators.required, Validators.pattern(formUtils.namePattern)]],
-    email: [null, [Validators.required, Validators.pattern(formUtils.emailPattern)]],
-    username: [null, [Validators.required, Validators.minLength(6), Validators.pattern(formUtils.notOnlySpacesPattern)]],
-    password: [null, [Validators.required, Validators.minLength(6)]],
-    confirmPassword: [null, [Validators.required, Validators.minLength(6)]],
+      name: [null, [Validators.required, Validators.pattern(formUtils.namePattern)]],
+      email: [null, [Validators.required, Validators.pattern(formUtils.emailPattern)],[formUtils.checkingEmail]],
+      username: [null, [Validators.required, Validators.minLength(6), Validators.pattern(formUtils.notOnlySpacesPattern),formUtils.checkingUsername]],
+      password: [null, [Validators.required, Validators.minLength(6)]],
+      confirmPassword: [null, [Validators.required, Validators.minLength(6)]],
+    },
+    {
+      validators: [
+        formUtils.isFieldOneLikeFieldTwo('password', 'confirmPassword'),
+      ]
+    }
+  )
 
-
-  })
 
   onSubmit() {
     this.myForm.markAllAsTouched()
