@@ -1,7 +1,7 @@
 import {Component, effect, inject, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {filter, map, switchMap, tap} from 'rxjs';
+import {filter, map, of, switchMap, tap} from 'rxjs';
 import {CountryItem} from '../../interfaces/Country';
 import {Country} from '../../country';
 
@@ -68,15 +68,21 @@ export class CountryPage {
           this.bordersOfCountry.set([])
       }),
       filter(value => value!.length > 0),
-      switchMap((alphaCode) =>
-        this.countryService.getCountryByAlphaCode(alphaCode!)
-      ),
-      switchMap((country) =>
-        this.countryService.getCountryBorderByCodes(country.borders)
+      switchMap((alphaCode) => {
+        return this.countryService.getCountryByAlphaCode(alphaCode!)
+      }),
+      switchMap((country) => {
+
+          return this.countryService.getCountryBorderByCodes(country.borders)
+        }
       )
     )
       .subscribe(value => {
-        this.bordersOfCountry.set(value)
+
+        if (value) {
+          this.bordersOfCountry.set(value)
+        }
+
       })
   }
 

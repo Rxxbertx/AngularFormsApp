@@ -42,12 +42,11 @@ export class Country {
     if (!countryCodes) {
       return of([])
     }
-
     const countriesRequests: Observable<CountryItem>[] = []
 
     countryCodes.forEach((countryCode) => {
       const request = this.getCountryByAlphaCode(countryCode);
-      countriesRequests.push()
+      countriesRequests.push(request)
     })
 
     return combineLatest(countriesRequests);
